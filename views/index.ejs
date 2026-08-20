@@ -21,10 +21,9 @@
                 <div class="grow">
                     <label for="base-currency" class="block">From</label>
                     <select name="base-currency" id="base-currency" required class="border border-gray-400 outline-none rounded-xs p-1 focus:ring-3 focus:ring-sky-300 focus:border-sky-600 transition duration-100 w-full">
-                        <option value="">Select Currency</option>
-                        <option value="PHP">PHP</option>
-                        <option value="USD">USD</option>
-                        <option value="TWD">TWD</option>
+                        <% for (code of supportedCurrencies) { %>
+                            <option value="<%= code %>" <%= locals.baseCurrency === code ? "selected" : "" %>><%= code %></option>
+                        <% } %>
                     </select>
                 </div>
 
@@ -35,10 +34,9 @@
                 <div class="grow">
                     <label for="target-currency" class="block">To</label>
                     <select name="target-currency" id="target-currency" required class="border border-gray-400 outline-none rounded-xs p-1 focus:ring-3 focus:ring-sky-300 focus:border-sky-600 transition duration-100 w-full">
-                        <option value="">Select Currency</option>
-                        <option value="PHP">PHP</option>
-                        <option value="USD">USD</option>
-                        <option value="TWD">TWD</option>
+                        <% for (code of supportedCurrencies) { %>
+                            <option value="<%= code %>" <%= locals.targetCurrency === code ? "selected" : "" %>><%= code %></option>
+                        <% } %>
                     </select>
                 </div>
             </div>
