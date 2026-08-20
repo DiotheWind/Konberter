@@ -1,13 +1,34 @@
 import express from "express";
+import "dotenv/config"
+import axios from "axios";
 
 const app = express();
 const port = 3000;
+const apiKey = process.env.API_KEY;
+const apiURL = `https://v6.exchangerate-api.com/v6/${apiKey}`
 
 app.use(express.static("public"))
-app.use("/icons", express.static("node_modules/bootstrap-icons/font"));
+app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
     res.render("index.ejs");
+});
+
+app.post("/", async (req, res) => {
+    const money = Number(req.body["money"]).toFixed(2);
+    const baseCurrency = req.body["base-currency"];
+    const targetCurrency = req.body["target-currency"];
+
+    const convertedMoney = (await axios.get(`${apiURL}/pair/${baseCurrency}/${targetCurrency}/${money}`)).data.conversion_result;
+
+    const context = {
+        baseMoney: money,
+        convertedMoney: convertedMoney.toFixed(2),
+        baseCurrency: baseCurrency,
+        targetCurrency: targetCurrency,
+    };
+
+    res.render("index.ejs", context);
 });
 
 app.listen(port, () => {

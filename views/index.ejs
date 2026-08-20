@@ -8,22 +8,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body class="bg-sky-600 flex justify-center items-center min-h-screen px-4">
-    <div class="bg-white w-full max-w-[600px] rounded-md h-3/4 py-5 px-5">
+    <div class="bg-white w-full max-w-150 rounded-md h-3/4 py-5 px-5">
         <h1 class="text-center text-sky-600 font-bold text-3xl lg:text-4xl mb-8">KONBERTER</h1>
 
-        <form action="" method="post">
+        <form action="/" method="post">
             <div class="flex flex-col gap-1 text-md lg:text-lg mb-5">
                 <label for="money">Enter Amount:</label>
-                <input type="number" min="0" step="0.01" id="money" name="money" required class="border border-gray-400 outline-none rounded-xs p-1 focus:ring-3 focus:ring-sky-300 focus:border-sky-600 transition duration-100">
+                <input type="number" min="0" step="0.01" id="money" name="money" value="<%= locals.baseMoney ?? '' %>" required class="border border-gray-400 outline-none rounded-xs p-1 focus:ring-3 focus:ring-sky-300 focus:border-sky-600 transition duration-100">
             </div>
 
             <div class="text-md lg:text-lg flex items-center justify-between gap-3 mb-5">
                 <div class="grow">
                     <label for="base-currency" class="block">From</label>
                     <select name="base-currency" id="base-currency" required class="border border-gray-400 outline-none rounded-xs p-1 focus:ring-3 focus:ring-sky-300 focus:border-sky-600 transition duration-100 w-full">
-                        <option value="">PHP</option>
-                        <option value="">USD</option>
-                        <option value="">TWD</option>
+                        <option value="">Select Currency</option>
+                        <option value="PHP">PHP</option>
+                        <option value="USD">USD</option>
+                        <option value="TWD">TWD</option>
                     </select>
                 </div>
 
@@ -34,14 +35,21 @@
                 <div class="grow">
                     <label for="target-currency" class="block">To</label>
                     <select name="target-currency" id="target-currency" required class="border border-gray-400 outline-none rounded-xs p-1 focus:ring-3 focus:ring-sky-300 focus:border-sky-600 transition duration-100 w-full">
-                        <option value="">PHP</option>
-                        <option value="">USD</option>
-                        <option value="">TWD</option>
+                        <option value="">Select Currency</option>
+                        <option value="PHP">PHP</option>
+                        <option value="USD">USD</option>
+                        <option value="TWD">TWD</option>
                     </select>
                 </div>
             </div>
 
-            <p class="text-gray-500 text-md lg:text-xl mb-5">1 USD = 50 PHP</p>
+            <p class="text-gray-500 text-md lg:text-xl mb-5">
+                <% if (locals.baseMoney && locals.convertedMoney && locals.baseCurrency && locals.targetCurrency) { %>
+                    <%= baseMoney %> <%= baseCurrency %> = <%= convertedMoney %> <%= targetCurrency %>
+                <% } else { %>
+                    You haven't exchanged yet...
+                <% } %>
+            </p>
 
             <button type="Submit" class="w-full bg-sky-600 text-white font-semibold rounded-sm text-md mb-5 lg:text-xl p-1.5 hover:bg-sky-500 transition duration-100 hover:cursor-pointer">Convert</button>
         </form>
